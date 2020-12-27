@@ -1,0 +1,54 @@
+
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+}
+
+plugins {
+    id 'java'
+
+    id 'me.bristermitten.pdm' version '0.0.29'
+
+    id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+tasks.jar.dependsOn project.tasks.getByName('pdm')
+
+repositories {
+    mavenCentral()
+
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'https://oss.sonatype.org/content/groups/public/' }
+
+    maven { url = 'https://jitpack.io/' }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+
+    pdm 'com.github.SaiintBrisson:command-framework:1.1.0'
+    pdm 'com.github.eikefab:ConfigValue:1.0.1'
+
+    def lombok = 'org.projectlombok:lombok:1.18.16'
+
+    compileOnly lombok
+    annotationProcessor lombok
+}
+
+bukkit {
+    main = 'org.example.ExamplePlugin'
+    authors = ['Me']
+    description = 'A example plugin.'
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
